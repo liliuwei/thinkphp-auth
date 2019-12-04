@@ -5,7 +5,13 @@
 ## 安装
 
 ~~~php
-composer require liliuwei/thinkphp-auth
+//thinkphp5.1
+composer require liliuwei/thinkphp-auth=1.0.*
+~~~
+
+~~~php
+//thinkphp6.0
+composer require liliuwei/thinkphp-auth=2.0.*
 ~~~
 
 ## 配置
@@ -121,6 +127,11 @@ CREATE TABLE `tp_auth_group_access` (
  *      在tp_auth_rule 表中定义一条规则时，如果type为1， condition字段就可以定义规则表达式。 如定义{score}>5  and {score}<100  表示用户的分数在5-100之间时这条规则才会通过。
  */
  
+~~~
+
+
+~~~php
+ //以下实例以thinkphp5.1为例说明
 ~~~
 
 ~~~php
