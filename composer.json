@@ -1,6 +1,6 @@
 {
     "name": "liliuwei/thinkphp-auth",
-    "description": "适用于thinkphp6.0的Auth权限扩展",
+    "description": "适用于thinkphp6.0+的Auth权限扩展",
     "keywords": ["think-auth", "thinkphp"],
     "license": "Apache-2.0",
     "type": "think-extend",
@@ -11,8 +11,8 @@
         }
     ],
     "require": {
-        "php": ">=7.1.0",
-        "topthink/framework": "^6.0"
+        "php": ">=7.2.5",
+        "topthink/framework": ">=6.0"
     },
     "autoload": {
         "psr-4": {
