@@ -10,7 +10,7 @@ composer require liliuwei/thinkphp-auth=1.0.*
 ~~~
 
 ~~~php
-//thinkphp6.0
+//thinkphp6.0+
 composer require liliuwei/thinkphp-auth=2.0.*
 ~~~
 
