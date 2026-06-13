@@ -37,9 +37,12 @@ CREATE TABLE `tp_admin` (
   `fullname` varchar(50) NOT NULL DEFAULT '',
   `phone` varchar(20) NOT NULL DEFAULT '',
   `password_reset_token` varchar(255) NOT NULL DEFAULT '',
-  `access_token` varchar(32) NOT NULL DEFAULT '',
+  `access_token` varchar(255) NOT NULL DEFAULT '',
+  `expire_time` int(10) NOT NULL DEFAULT '0',
+  `refresh_expires_time` int(255) NOT NULL DEFAULT '0',
+  `refresh_token` varchar(255) NOT NULL DEFAULT '',
   `email` varchar(255) NOT NULL DEFAULT '' COMMENT '邮箱',
-  `password` varchar(32) NOT NULL DEFAULT '' COMMENT '管理员密码',
+  `password` varchar(255) NOT NULL DEFAULT '' COMMENT '管理员密码',
   `login_times` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '登陆次数',
   `login_ip` varchar(20) NOT NULL DEFAULT '' COMMENT 'IP地址',
   `login_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '登陆时间',
@@ -49,23 +52,29 @@ CREATE TABLE `tp_admin` (
   `create_time` int(10) unsigned NOT NULL DEFAULT '0',
   `update_time` int(10) NOT NULL DEFAULT '0',
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1可用0禁用',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 -- ----------------------------
 -- tp_auth_rule，规则表，
 -- id:主键，name：规则唯一标识, title：规则中文名称 status 状态：为1正常，为0禁用，condition：规则表达式，为空表示存在就验证，不为空表示按照条件验证
 -- ----------------------------
  DROP TABLE IF EXISTS `tp_auth_rule`;
 CREATE TABLE `tp_auth_rule` (
-    `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-    `name` char(80) NOT NULL DEFAULT '',
-    `title` char(20) NOT NULL DEFAULT '',
-    `type` tinyint(1) NOT NULL DEFAULT '1',
-    `status` tinyint(1) NOT NULL DEFAULT '1',
-    `condition` char(100) NOT NULL DEFAULT '',  # 规则附件条件,满足附加条件的规则,才认为是有效的规则
-    PRIMARY KEY (`id`),
-    UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
+  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
+  `name` char(80) NOT NULL DEFAULT '' COMMENT '规则唯一标识',
+  `title` char(20) NOT NULL DEFAULT '' COMMENT '规则中文名称',
+  `type` tinyint(1) NOT NULL DEFAULT '1',
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态：为1正常，为0禁用',
+  `condition` char(100) NOT NULL DEFAULT '',
+  `menu_type` tinyint(1) NOT NULL DEFAULT '1' COMMENT '菜单类型：1-菜单项(可点击跳转)，2-菜单分组(仅展开)，3-功能按钮(不显示菜单)',
+  `is_menu` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否显示在左侧菜单：0-不显示，1-显示',
+  `pid` int(11) NOT NULL DEFAULT '0' COMMENT '上级id',
+  `icon` varchar(42) NOT NULL DEFAULT 'fa fa-th-list' COMMENT '图标',
+  `sort` int(11) NOT NULL DEFAULT '255' COMMENT '排序',
+  `level` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE KEY `name` (`name`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=274 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 -- ----------------------------
 -- tp_auth_group 用户组表，
 -- id：主键， title:用户组中文名称， rules：用户组拥有的规则id， 多个规则","隔开，status 状态：为1正常，为0禁用
@@ -176,7 +185,7 @@ class Auth{
             return $groups[$uid];
         $user_groups = \think\facade\Db::table($this->_config['auth_group_access'])
             ->alias('a')
-            ->where("a.uid='$uid' and g.status='1'")
+            ->where('a.uid', $uid)->where('g.status', '1')
             ->join($this->_config['auth_group'].' g','a.group_id=g.id')
             ->field('uid,group_id,title,rules')
             ->select();
