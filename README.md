@@ -80,7 +80,6 @@ CREATE TABLE `tp_auth_rule` (
   `pid` int(11) NOT NULL DEFAULT '0' COMMENT '上级id',
   `icon` varchar(42) NOT NULL DEFAULT 'fa fa-th-list' COMMENT '图标',
   `sort` int(11) NOT NULL DEFAULT '255' COMMENT '排序',
-  `level` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `name` (`name`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=274 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
