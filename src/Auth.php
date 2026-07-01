@@ -72,11 +72,11 @@ CREATE TABLE `tp_admin` (
 DROP TABLE IF EXISTS `tp_auth_rule`;
 CREATE TABLE `tp_auth_rule` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-  `name` char(80) NOT NULL DEFAULT '' COMMENT '规则唯一标识',
-  `title` char(20) NOT NULL DEFAULT '' COMMENT '规则中文名称',
+  `name` varchar(80) NOT NULL DEFAULT '' COMMENT '规则唯一标识',
+  `title` varchar(20) NOT NULL DEFAULT '' COMMENT '规则中文名称',
   `type` tinyint(1) NOT NULL DEFAULT '1',
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态：为1正常，为0禁用',
-  `condition` char(100) NOT NULL DEFAULT '',
+  `condition` varchar(100) NOT NULL DEFAULT '',
   `menu_type` tinyint(1) NOT NULL DEFAULT '1' COMMENT '菜单类型：1-菜单项(可点击跳转)，2-菜单分组(仅展开)，3-功能按钮(不显示菜单)',
   `is_menu` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否显示在左侧菜单：0-不显示，1-显示',
   `pid` int(11) NOT NULL DEFAULT '0' COMMENT '上级id',
@@ -94,9 +94,9 @@ CREATE TABLE `tp_auth_rule` (
 DROP TABLE IF EXISTS `tp_auth_group`;
 CREATE TABLE `tp_auth_group` (
     `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-    `title` char(100) NOT NULL DEFAULT '',
+    `title` varchar(100) NOT NULL DEFAULT '',
     `status` tinyint(1) NOT NULL DEFAULT '1',
-    `rules` char(80) NOT NULL DEFAULT '',
+    `rules` varchar(80) NOT NULL DEFAULT '',
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 
