@@ -248,7 +248,7 @@ class Base extends \app\BaseController
                 $menu_nav[] = $item;
             }
         }
-        $rule = Db::name('auth_rule')->where('name', '=', $url)->field('id,pid')->find();
+        $rule = Db::name('auth_rule')->whereRaw('LOWER(name) = ?', [$url])->field('id,pid')->find();
         $active_ids = [];
         if ($rule) {
             $active_ids[] = $rule['id'];
